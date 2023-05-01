@@ -3,6 +3,10 @@
 # default: 15
 amount_to_fetch = 15
 
+# show the keyholder's name at the end of the lock. will require more terminal width.
+# default: true
+show_keyholder_names = true
+
 [formatting]
 
 # remove emojis from lock title and description as they mess with the table in some terminals
@@ -15,14 +19,16 @@ remove_emojis = true
 # default: false
 enforce_ascii = false
 
+# columns: max time, needs password, title, description, description length, link, keyholder_name
+
 # minimum column widths - best to leave alone unless you know what you're doing
-# default: [5, 1, 4, 8, 5, 52]
-min_widths = [5, 1, 4, 8, 5, 52]
+# default: [5, 1, 4, 8, 5, 52, 20]
+min_widths = [5, 1, 4, 8, 5, 52, 20]
 
 # defines column widths flexibility - best to leave alone unless you know what you're doing
 # a number denotes the weight of that column when assigning free space
-# default: [0, 0, 1, 3, 0, 0]
-flexibility = [0, 0, 1, 3, 0, 0]
+# default: [0, 0, 1, 3, 0, 0, 0]
+flexibility = [0, 0, 1, 3, 0, 0, 0]
 
 [criteria]
 

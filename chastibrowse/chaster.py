@@ -118,9 +118,9 @@ class ChasterLock:
         """Generate a link to itself."""
         return f"https://chaster.app/explore/{self.id}"
 
-    def to_list(self: ChasterLock) -> list[str]:
+    def to_list(self: ChasterLock, show_username: bool) -> list[str]:
         """Return a list containing lock information to be shown."""
-        return [
+        result = [
             self.format_max_time(),
             "*" if self.password_needed else " ",
             self.name,
@@ -128,6 +128,9 @@ class ChasterLock:
             str(len(self.desc)),
             self.link(),
         ]
+        if show_username:
+            result.append(self.keyholder.name)
+        return result
 
     @classmethod
     def from_json(cls: type[ChasterLock], data: LockJsonType) -> ChasterLock:

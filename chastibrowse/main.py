@@ -34,7 +34,7 @@ def main() -> None:
         table = []
         for lock in newlocks:
             if not lock.invalid(config_data["criteria"]):
-                table.append(lock.to_list())
+                table.append(lock.to_list(config_data["show_keyholder_names"]))
 
         lastid = newlocks[-1].id
 

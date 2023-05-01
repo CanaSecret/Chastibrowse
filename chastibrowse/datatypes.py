@@ -42,6 +42,7 @@ class ConfigDataType(TypedDict):
     """Represents `config.toml`."""
 
     amount_to_fetch: int
+    show_keyholder_names: bool
     formatting: FormattingConfigDataType
     criteria: CriteriaDataType
 

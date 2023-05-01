@@ -30,7 +30,7 @@ Once installed, can be started by entering 'chastibrowse' in a terminal. Press e
 
 Taking a look through the **config file** is highly recommended. You can find it by entering 'config' into the input prompt.
 
-Lock data is split into 6 columns:
+Lock data is split into 7 columns:
 
 - Maximum time
 - Lock requires Password?
@@ -38,6 +38,7 @@ Lock data is split into 6 columns:
 - Description
 - Characters in Description
 - Link to Lock
+- Keyholder name
 
 The Title and Description field scale with terminal width, but you'll have to enter 'reload' if you resize while Chastibrowse is running.
 

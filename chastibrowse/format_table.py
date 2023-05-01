@@ -49,24 +49,36 @@ def table(
 
     :param data: list of rows, given as a list of strings containing the data to be printed
     """
-    if not (len(config["min_widths"]) == len(config["flexibility"]) == len(data[0])):
-        raise ValueError("Lists must have the same length.") from AssertionError
+    n_data_columns = len(data[0])
+    for row in data[1:]:
+        if len(row) != n_data_columns:
+            raise ValueError("All rows must have the same length.")
+
+    if (
+        len(config["min_widths"]) < n_data_columns
+        or len(config["flexibility"]) < n_data_columns
+    ):
+        raise ValueError(
+            "Minimum widths and flexibility must be at least as long as data."
+        )
 
     spare_cols = (
         os.get_terminal_size().columns
-        - sum(config["min_widths"])
-        - 2 * (len(config["min_widths"]) - 1)  # 2 spaces per gap
+        - sum(config["min_widths"][:n_data_columns])
+        - 2 * (n_data_columns - 1)  # 2 spaces per gap
         - 3  # 3 safety buffer
     )
     true_widths: list[int] = []
-    for i in range(len(config["min_widths"])):
+    for i in range(n_data_columns):
         true_widths.append(
             math.floor(
-                spare_cols * config["flexibility"][i] / sum(config["flexibility"])
+                spare_cols
+                * config["flexibility"][i]
+                / sum(config["flexibility"][:n_data_columns])
                 + config["min_widths"][i]
             )
         )
-    output_lines: list[str] = [generate_border(true_widths)]
+    output_lines: list[str] = [generate_border(true_widths[:n_data_columns])]
     if config["enforce_ascii"]:
         data = [[asciiify(item) for item in row] for row in data]
     elif config["remove_emojis"]:  # if ascii was called this can be skipped
