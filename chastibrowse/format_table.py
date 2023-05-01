@@ -64,7 +64,7 @@ def table(
 
     spare_cols = (
         os.get_terminal_size().columns
-        - sum(config["min_widths"][:n_data_columns])
+        - sum(list(config["min_widths"])[:n_data_columns])
         - 2 * (n_data_columns - 1)  # 2 spaces per gap
         - 3  # 3 safety buffer
     )
@@ -74,7 +74,7 @@ def table(
             math.floor(
                 spare_cols
                 * config["flexibility"][i]
-                / sum(config["flexibility"][:n_data_columns])
+                / sum(list(config["flexibility"])[:n_data_columns])
                 + config["min_widths"][i]
             )
         )

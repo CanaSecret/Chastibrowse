@@ -26,7 +26,7 @@ There are wheels available under [releases](https://github.com/CanaSecret/Chasti
 
 ## Usage
 
-Once installed, can be started by entering 'chastibrowse' in a terminal. Press enter to load more results.
+Once installed, can be started by entering 'chastibrowse' in a terminal. Press enter to load more results, or enter help to see all commands.
 
 Taking a look through the **config file** is highly recommended. You can find it by entering 'config' into the input prompt.
 

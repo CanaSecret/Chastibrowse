@@ -529,6 +529,18 @@ files = [
 ]
 
 [[package]]
+name = "tomlkit"
+version = "0.11.8"
+description = "Style preserving TOML library"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tomlkit-0.11.8-py3-none-any.whl", hash = "sha256:8c726c4c202bdb148667835f68d68780b9a003a9ec34167b6c673b38eff2a171"},
+    {file = "tomlkit-0.11.8.tar.gz", hash = "sha256:9330fc7faa1db67b541b28e62018c17d20be733177d290a13b24c62d1614e0c3"},
+]
+
+[[package]]
 name = "types-emoji"
 version = "2.1.0.3"
 description = "Typing stubs for emoji"
@@ -647,4 +659,4 @@ test = ["pytest (>=6.0.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "954202899a425904171762b334250e02f9441f0631f154f2e779cd58c855d724"
+content-hash = "9a6c27786ce3f4fd347bf9972943c4b7bb43ecdfa3d9383343a8cb47a02338fd"
