@@ -22,7 +22,7 @@ If you don't have Python 3.11 installed:
 
 ### Wheels
 
-If you can't build it locally, there are wheels available under [releases](https://github.com/CanaSecret/Chastibrowse/releases). You'll have to download the version you want and then run `pip install <filename>`.
+There are wheels available under [releases](https://github.com/CanaSecret/Chastibrowse/releases). You'll have to download the version you want and then run `pip install <filename>`.
 
 ## Usage
 
