@@ -1,0 +1,3 @@
+line-length = 100
+select      = ["ALL"]
+ignore      = ["COM", "FBT", "EM", "DTZ", "T20", "TRY003", "PTH", "PLR0913"]
