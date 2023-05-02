@@ -368,14 +368,14 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-
 
 [[package]]
 name = "pre-commit"
-version = "3.2.2"
+version = "3.3.1"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pre_commit-3.2.2-py2.py3-none-any.whl", hash = "sha256:0b4210aea813fe81144e87c5a291f09ea66f199f367fa1df41b55e1d26e1e2b4"},
-    {file = "pre_commit-3.2.2.tar.gz", hash = "sha256:5b808fcbda4afbccf6d6633a56663fed35b6c2bc08096fd3d47ce197ac351d9d"},
+    {file = "pre_commit-3.3.1-py2.py3-none-any.whl", hash = "sha256:218e9e3f7f7f3271ebc355a15598a4d3893ad9fc7b57fe446db75644543323b9"},
+    {file = "pre_commit-3.3.1.tar.gz", hash = "sha256:733f78c9a056cdd169baa6cd4272d51ecfda95346ef8a89bf93712706021b907"},
 ]
 
 [package.dependencies]
@@ -544,7 +544,7 @@ files = [
 name = "types-emoji"
 version = "2.1.0.3"
 description = "Typing stubs for emoji"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -556,7 +556,7 @@ files = [
 name = "types-python-dateutil"
 version = "2.8.19.12"
 description = "Typing stubs for python-dateutil"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -568,7 +568,7 @@ files = [
 name = "types-requests"
 version = "2.29.0.0"
 description = "Typing stubs for requests"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -595,7 +595,7 @@ files = [
 name = "types-urllib3"
 version = "1.26.25.12"
 description = "Typing stubs for urllib3"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -671,4 +671,4 @@ test = ["pytest (>=6.0.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "29da773227f7e32f7871939b81820113d15bf395d2993f2d7cb7d52e659dc6d8"
+content-hash = "7e7a95426c1fbc6a0cc50257c772ed6a2b7923a19dfeed4e5f399debcce474c6"

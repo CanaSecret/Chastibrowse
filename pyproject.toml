@@ -9,22 +9,26 @@ repository  = "https://github.com/CanaSecret/Chastibrowse"
 classifiers = ["Programming Language :: Python :: 3", "License :: OSI Approved :: GNU General Public License v3 (GPLv3)", "Typing :: Typed"]
 
 [tool.poetry.dependencies]
-python                = "^3.11"
-requests              = "^2.29.0"
-python-dateutil       = "^2.8.2"
-types-python-dateutil = "^2.8.19.12"
-types-requests        = "^2.29.0.0"
-emoji                 = "^2.2.0"
-types-emoji           = "^2.1.0.3"
-wheel                 = "^0.40.0"
-tomlkit               = "^0.11.8"
+python          = "^3.11"
+requests        = "^2.29.0"
+python-dateutil = "^2.8.2"
+emoji           = "^2.2.0"
+wheel           = "^0.40.0"
+tomlkit         = "^0.11.8"
+
+[tool.poetry.group.dev]
+optional = true
 
 [tool.poetry.group.dev.dependencies]
-black            = "^23.3.0"
-ruff             = "^0.0.263"
-mypy             = "^1.2.0"
-pre-commit       = "^3.2.2"
-types-setuptools = "^67.7.0.1"
+black                 = "^23.3.0"
+ruff                  = "^0.0.263"
+mypy                  = "^1.2.0"
+pre-commit            = "^3.2.2"
+types-setuptools      = "^67.7.0.1"
+types-emoji           = "^2.1.0.3"
+types-python-dateutil = "^2.8.19.12"
+types-requests        = "^2.29.0.0"
+
 
 [build-system]
 requires      = ["poetry-core"]
