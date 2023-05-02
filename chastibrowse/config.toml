@@ -61,11 +61,11 @@ show_desc_startswith_link = false
 
 [criteria.blacklists]
 
-# array of blacklisted usernames, their locks will be hidden automatically
+# array of blacklisted usernames, their locks will be hidden automatically, not case sensitive
 # default: []
 users = []
 
-# array of blacklisted words in lock title or description; locks with these words will not be shown
+# array of blacklisted words in lock title or description; locks with these words will not be shown, not case sensitive
 # consider that this can't check if the word is listed under 'limits' or similar but just blanket removes the lock
 # default: []
 keywords = []

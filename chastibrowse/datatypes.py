@@ -53,7 +53,7 @@ class UserJsonType(TypedDict):
     _id: str
     username: str
     isFindom: bool
-    gender: str
+    gender: str | None
 
 
 class LockJsonType(TypedDict):

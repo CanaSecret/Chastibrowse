@@ -44,9 +44,12 @@ class ChasterUser:
     @classmethod
     def from_json(cls: type[ChasterUser], data: UserJsonType) -> ChasterUser:
         """Create a ChasterUser object from a dict containing the needed info."""
-        return ChasterUser(
-            data["_id"], data["username"], data["isFindom"], data["gender"]
+        gender = (
+            ""
+            if data["gender"] is None or not data["gender"].strip()
+            else data["gender"]
         )
+        return ChasterUser(data["_id"], data["username"], data["isFindom"], gender)
 
 
 class ChasterLock:
@@ -82,25 +85,31 @@ class ChasterLock:
         if (
             len(self.desc) < criteria["minimum_description_length"]
             or ((not criteria["show_findom"]) and self.keyholder.findom)
-            or (self.maxtime and self.maxtime > criteria["max_max_time"] > 0)
+            or (
+                self.maxtime is not None and self.maxtime > criteria["max_max_time"] > 0
+            )
+            or (self.maxtime is None and criteria["max_max_time"] > 0)
             or (criteria["links"]["show_linked_titles"] and "chaster.app" in self.name)
             or (
                 criteria["links"]["show_linked_descriptions"]
-                and "chaster.app" in self.desc
+                and "chaster.app" in self.desc.casefold()
             )
             or (
                 criteria["links"]["show_desc_startswith_link"]
-                and self.desc.startswith("https://chaster.app")
+                and self.desc.casefold().startswith("https://chaster.app")
             )
-            or (self.keyholder.name in criteria["blacklists"]["users"])
+            or (
+                self.keyholder.name.casefold()
+                in map(str.casefold, criteria["blacklists"]["users"])
+            )
             or (
                 self.keyholder.gender.casefold()
-                in criteria["blacklists"]["keyholder_genders"]
+                in map(str.casefold, criteria["blacklists"]["keyholder_genders"])
             )
         ):
             return True
         return any(
-            word in self.name or word in self.desc
+            word.casefold() in self.name.casefold() or word in self.desc
             for word in criteria["blacklists"]["keywords"]
         )
 

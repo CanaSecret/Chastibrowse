@@ -97,12 +97,21 @@ def main() -> None:
         time.sleep(3)
     lastid = None
     while True:
+        config_data = load_config()
         newlocks = chaster.fetch_locks(config_data["amount_to_fetch"], lastid)
-
         table = []
         for lock in newlocks:
             if not lock.invalid(config_data["criteria"]):
                 table.append(lock.to_list(config_data["show_keyholder_names"]))
+        if len(table) == 0:
+            print(
+                "All locks were excluded due to filters. "
+                "Consider increasing `amount_to_fetch` if this happens often."
+            )
+            time.sleep(1)
+            print("Loading more...")
+            lastid = newlocks[-1].id
+            continue
 
         print(format_table.table(data=table, config=config_data["formatting"]))
 
