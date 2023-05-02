@@ -90,13 +90,16 @@ class ChasterLock:
                 self.maxtime is not None and self.maxtime > criteria["max_max_time"] > 0
             )
             or (self.maxtime is None and criteria["max_max_time"] > 0)
-            or (criteria["links"]["show_linked_titles"] and "chaster.app" in self.name)
             or (
-                criteria["links"]["show_linked_descriptions"]
+                not (criteria["links"]["show_linked_titles"])
+                and "chaster.app" in self.name
+            )
+            or (
+                not (criteria["links"]["show_linked_descriptions"])
                 and "chaster.app" in self.desc.casefold()
             )
             or (
-                criteria["links"]["show_desc_startswith_link"]
+                not (criteria["links"]["show_desc_startswith_link"])
                 and self.desc.casefold().startswith("https://chaster.app")
             )
             or (
