@@ -4,13 +4,13 @@ A CLI alternative to [chaster.app](https://chaster.app)'s browse page.
 
 ![An agressively-censored example result of the app.](images/chastibrowse-preview.png)
 
-## Goals
+## Features
 
 - Alternative interface to browse public shared locks with improved filtering options.
-- A customizable table-based display.
-- Ease of use.
+- A highly customizable table-based display.
+- Ease of use & customizability.
 - Fully type checked.
-- Light on Chaster API - it's offered for free after all.
+- Light on Chaster API.
 
 ## Installation
 
