@@ -4,7 +4,8 @@ A CLI alternative to [chaster.app](https://chaster.app)'s browse page.
 
 ## Goals
 
-- Alternative interface to browse public shared locks.
+- Alternative interface to browse public shared locks with improved filtering options.
+- A customizable table-based display.
 - Ease of use.
 - Fully type checked.
 - Light on Chaster API - it's offered for free after all.
