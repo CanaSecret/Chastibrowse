@@ -4,7 +4,8 @@ import os
 
 import emoji
 
-from .datatypes import FormattingConfigDataType
+from .config_helper import flexibility, max_widths, min_widths
+from .datatypes import ConfigDataType, columns_available
 
 
 def asciiify(text: str) -> str:
@@ -36,9 +37,57 @@ def generate_border(widths: list[int]) -> str:
     return border
 
 
+def split_spare_columns(
+    amount: int,
+    weights: dict[columns_available, int | float],
+    maxes: dict[columns_available, int],
+) -> dict[columns_available, int]:
+    """Given `amount` columns, a list of weights and maxima, split the spare columns up.
+
+    :param amount: amount of spare columns to divide up
+    :param weights: dict of keys as col names, ints or floats representing weights of table columns
+    :param maxes: dict of keys as col names, ints representing max columns per table column
+    """
+    amount_remaining = amount
+    cols_remaining = list(weights.keys())
+    result: dict[columns_available, int] = {}
+    denominator = sum(weights.values())
+
+    # remove columns if weight = 0
+    for key, weight in weights.items():
+        if weight == 0:
+            result[key] = 0
+            cols_remaining.remove(key)
+            continue
+
+    # sort out columns that recieve their max value
+    old_amount = None
+    while old_amount != amount_remaining:
+        to_complete = []
+        old_amount = amount_remaining
+        for key in cols_remaining:
+            if maxes[key] == 0:  # if no max set, we can't reach it
+                continue
+            if math.floor(amount_remaining / denominator * weights[key]) >= maxes[key]:
+                to_complete.append(key)
+                continue  # if we can assign max space, do so
+        for key in to_complete:
+            result[key] = maxes[key]
+            amount_remaining -= maxes[key]
+            denominator -= weights[key]
+            cols_remaining.remove(key)
+    if not cols_remaining:  # if we're done
+        return result
+
+    # non-maxed columns
+    for key in cols_remaining:
+        result[key] = math.floor(amount_remaining / denominator * weights[key])
+    return {key: result[key] for key in weights}
+
+
 def table(
     data: list[list[str]],
-    config: FormattingConfigDataType,
+    config: ConfigDataType,
 ) -> str:
     """Format a table similarly to `tabulate.tabulate`.
 
@@ -49,45 +98,37 @@ def table(
 
     :param data: list of rows, given as a list of strings containing the data to be printed
     """
-    n_data_columns = len(data[0])
-    for row in data[1:]:
-        if len(row) != n_data_columns:
-            raise ValueError("All rows must have the same length.")
-
-    if (
-        len(config["min_widths"]) < n_data_columns
-        or len(config["flexibility"]) < n_data_columns
-    ):
-        raise ValueError(
-            "Minimum widths and flexibility must be at least as long as data."
-        )
-
     spare_cols = (
         os.get_terminal_size().columns
-        - sum(list(config["min_widths"])[:n_data_columns])
-        - 2 * (n_data_columns - 1)  # 2 spaces per gap
+        - sum(min_widths(config).values())
+        - 2 * (len(config["columns"]) - 1)  # 2 spaces per gap
         - 3  # 3 safety buffer
     )
-    true_widths: list[int] = []
-    for i in range(n_data_columns):
-        true_widths.append(
-            math.floor(
-                spare_cols
-                * config["flexibility"][i]
-                / sum(list(config["flexibility"])[:n_data_columns])
-                + config["min_widths"][i]
-            )
-        )
-    output_lines: list[str] = [generate_border(true_widths[:n_data_columns])]
-    if config["enforce_ascii"]:
+
+    additional_widths = split_spare_columns(
+        spare_cols, flexibility(config), max_widths(config)
+    )
+
+    true_widths = {
+        col: config["available_columns"][col]["min_width"] + additional_widths[col]
+        for col in config["columns"]
+    }
+
+    output_lines: list[str] = [generate_border(list(true_widths.values()))]
+    if config["formatting"]["enforce_ascii"]:
         data = [[asciiify(item) for item in row] for row in data]
-    elif config["remove_emojis"]:  # if ascii was called this can be skipped
+    elif config["formatting"][
+        "remove_emojis"
+    ]:  # if ascii was called this can be skipped
         data = [[clean(item) for item in row] for row in data]
     for row in data:
         output_lines.append(
             "  ".join(
-                [fixed_length(item, true_widths[i]) for i, item in enumerate(row)]
+                [
+                    fixed_length(item, list(true_widths.values())[i])
+                    for i, item in enumerate(row)
+                ]
             )
         )
-    output_lines.append(generate_border(true_widths))
+    output_lines.append(generate_border(list(true_widths.values())))
     return "\n".join(output_lines)

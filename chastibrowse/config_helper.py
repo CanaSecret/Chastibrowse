@@ -4,7 +4,7 @@ from typing import cast
 
 import tomlkit
 
-from .datatypes import ConfigDataType
+from .datatypes import ConfigDataType, columns_available
 
 
 def find_config() -> Path:
@@ -26,3 +26,36 @@ def write_config(config_data: ConfigDataType) -> None:
     """
     with find_config().open("w") as file:
         file.write(tomlkit.dumps(config_data))
+
+
+def min_widths(config_data: ConfigDataType) -> dict[columns_available, int]:
+    """Extract list of minimum widths from configuration data.
+
+    Returns the column widths for columns listed in `columns`.
+    """
+    return {
+        key: config_data["available_columns"][key]["min_width"]
+        for key in config_data["columns"]
+    }
+
+
+def max_widths(config_data: ConfigDataType) -> dict[columns_available, int]:
+    """Extract list of maximum widths from configuration data.
+
+    Returns the column widths for columns listed in `columns`.
+    """
+    return {
+        key: config_data["available_columns"][key]["max_width"]
+        for key in config_data["columns"]
+    }
+
+
+def flexibility(config_data: ConfigDataType) -> dict[columns_available, int | float]:
+    """Extract list of flexibilities from configuration data.
+
+    Returns the column widths for columns listed in `columns`.
+    """
+    return {
+        key: config_data["available_columns"][key]["flexibility"]
+        for key in config_data["columns"]
+    }

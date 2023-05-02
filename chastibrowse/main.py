@@ -8,7 +8,7 @@ from pathlib import Path
 import pkg_resources
 
 from . import chaster, format_table
-from .config_helper import load_config, write_config
+from .config_helper import load_config, min_widths, write_config
 from .datatypes import ConfigDataType
 
 
@@ -78,7 +78,7 @@ def handle_user_input(
 def main() -> None:
     """Run CLI."""
     config_data = load_config()
-    if os.get_terminal_size().columns < sum(config_data["formatting"]["min_widths"]):
+    if os.get_terminal_size().columns < sum(min_widths(config_data).values()):
         print(
             "Your terminal is very thin! If you can, make it wider, then reload.\n" * 5
         )
@@ -87,10 +87,10 @@ def main() -> None:
     while True:
         config_data = load_config()
         newlocks = chaster.fetch_locks(config_data["amount_to_fetch"], lastid)
-        table = []
+        table: list[list[str]] = []
         for lock in newlocks:
             if not lock.invalid(config_data["criteria"]):
-                table.append(lock.to_list(config_data["show_keyholder_names"]))
+                table.append(lock.to_list(config_data["columns"]))
         if len(table) == 0:
             print(
                 "All locks were excluded due to filters. "
@@ -101,7 +101,10 @@ def main() -> None:
             lastid = newlocks[-1].id
             continue
 
-        print(format_table.table(data=table, config=config_data["formatting"]))
+        if len(config_data["columns"]) == 0:
+            print("Well, what did you expect to happen?")
+            time.sleep(1)
+        print(format_table.table(data=table, config=config_data))
 
         user_input = (
             input(

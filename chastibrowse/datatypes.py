@@ -1,6 +1,37 @@
 """Datatypes representing various json structures."""
 
-from typing import NotRequired, TypedDict
+from typing import Literal, NotRequired, TypedDict
+
+columns_available = Literal[
+    "maxtime",
+    "password_needed",
+    "name",
+    "description",
+    "description_len",
+    "link",
+    "keyholder_name",
+]
+
+
+class ColumnConfigDataType(TypedDict):
+    """Represents a single column in the [columns] table in `config.toml`."""
+
+    name: str
+    min_width: int
+    flexibility: int | float
+    max_width: int
+
+
+class ColumnsListDataType(TypedDict):
+    """Represents the [columns] table of `config.toml`."""
+
+    maxtime: ColumnConfigDataType
+    password_needed: ColumnConfigDataType
+    name: ColumnConfigDataType
+    description: ColumnConfigDataType
+    description_len: ColumnConfigDataType
+    link: ColumnConfigDataType
+    keyholder_name: ColumnConfigDataType
 
 
 class LinksConfigDataType(TypedDict):
@@ -34,8 +65,6 @@ class FormattingConfigDataType(TypedDict):
 
     remove_emojis: bool
     enforce_ascii: bool
-    min_widths: list[int]
-    flexibility: list[int]
 
 
 class ConfigDataType(TypedDict):
@@ -43,8 +72,10 @@ class ConfigDataType(TypedDict):
 
     amount_to_fetch: int
     show_keyholder_names: bool
+    columns: list[columns_available]
     formatting: FormattingConfigDataType
     criteria: CriteriaDataType
+    available_columns: ColumnsListDataType
 
 
 class UserJsonType(TypedDict):

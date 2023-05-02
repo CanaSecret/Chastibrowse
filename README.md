@@ -50,7 +50,8 @@ The input prompt always provides a 'code'. If you save the last code you see, qu
 
 ## Planned
 
-- Easier results display customisation.
+- **Done!** ~~Easier results display customisation.~~
+- Config file validation
 
 ## Not planned
 

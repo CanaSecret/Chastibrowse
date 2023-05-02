@@ -16,6 +16,7 @@ if TYPE_CHECKING:
         LockJsonType,
         PostDataType,
         UserJsonType,
+        columns_available,
     )
 
 
@@ -127,19 +128,21 @@ class ChasterLock:
         """Generate a link to itself."""
         return f"https://chaster.app/explore/{self.id}"
 
-    def to_list(self: ChasterLock, show_username: bool) -> list[str]:
+    def to_list(self: ChasterLock, columns: list[columns_available]) -> list[str]:
         """Return a list containing lock information to be shown."""
-        result = [
-            self.format_max_time(),
-            "*" if self.password_needed else " ",
-            self.name,
-            self.desc,
-            str(len(self.desc)),
-            self.link(),
-        ]
-        if show_username:
-            result.append(self.keyholder.name)
-        return result
+        row: list[str] = []
+        options: dict[columns_available, str] = {
+            "maxtime": self.format_max_time(),
+            "password_needed": "*" if self.password_needed else " ",
+            "name": self.name,
+            "description": self.desc,
+            "description_len": str(len(self.desc)),
+            "link": self.link(),
+            "keyholder_name": self.keyholder.name,
+        }
+        for col in columns:
+            row.append(options[col])
+        return row
 
     @classmethod
     def from_json(cls: type[ChasterLock], data: LockJsonType) -> ChasterLock:
