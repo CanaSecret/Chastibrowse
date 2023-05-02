@@ -50,7 +50,7 @@ show_linked_titles = false
 show_linked_descriptions = false
 
 # show locks with description that start with a link to chaster?
-# default: 
+# default: false
 show_desc_startswith_link = false
 
 [criteria.blacklists]
