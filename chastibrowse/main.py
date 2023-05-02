@@ -4,23 +4,10 @@ import os
 import sys
 import time
 from pathlib import Path
-from typing import cast
-
-import tomlkit
 
 from . import chaster, format_table
+from .config_helper import load_config, write_config
 from .datatypes import ConfigDataType
-
-
-def find_config() -> Path:
-    """Find `config.toml` and return a Path representing it."""
-    return Path(__file__).with_name("config.toml")
-
-
-def load_config() -> ConfigDataType:
-    """Read config file and return values as dictionary."""
-    with find_config().open("r") as file:
-        return cast(ConfigDataType, tomlkit.parse(file.read()))
 
 
 def handle_user_input(
@@ -57,8 +44,7 @@ def handle_user_input(
         username = user_input.split(" ")[1]
         if username not in config_data["criteria"]["blacklists"]["users"]:
             config_data["criteria"]["blacklists"]["users"].append(username)
-            with find_config().open("w") as file:
-                file.write(tomlkit.dumps(config_data))
+            write_config(config_data)
         else:
             print("user already blacklisted!")
             time.sleep(1)
