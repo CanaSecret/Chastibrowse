@@ -5,6 +5,8 @@ import sys
 import time
 from pathlib import Path
 
+import pkg_resources
+
 from . import chaster, format_table
 from .config_helper import load_config, write_config
 from .datatypes import ConfigDataType
@@ -102,7 +104,12 @@ def main() -> None:
         print(format_table.table(data=table, config=config_data["formatting"]))
 
         user_input = (
-            input(f"code: {lastid} | enter 'help' for help | > ").casefold().strip()
+            input(
+                f"(Chastibrowse {pkg_resources.get_distribution('chastibrowse').version}) | "
+                f"Code: {lastid} | Enter 'help' | > "
+            )
+            .casefold()
+            .strip()
         )
 
         lastid = handle_user_input(user_input, config_data, newlocks, lastid)

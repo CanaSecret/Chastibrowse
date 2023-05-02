@@ -20,10 +20,11 @@ wheel                 = "^0.40.0"
 tomlkit               = "^0.11.8"
 
 [tool.poetry.group.dev.dependencies]
-black      = "^23.3.0"
-ruff       = "^0.0.263"
-mypy       = "^1.2.0"
-pre-commit = "^3.2.2"
+black            = "^23.3.0"
+ruff             = "^0.0.263"
+mypy             = "^1.2.0"
+pre-commit       = "^3.2.2"
+types-setuptools = "^67.7.0.1"
 
 [build-system]
 requires      = ["poetry-core"]
