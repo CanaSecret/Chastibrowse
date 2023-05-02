@@ -2,6 +2,8 @@
 
 A CLI alternative to [chaster.app](https://chaster.app)'s browse page.
 
+![An agressively-censored example result of the app.](images/chastibrowse-preview.png)
+
 ## Goals
 
 - Alternative interface to browse public shared locks with improved filtering options.
