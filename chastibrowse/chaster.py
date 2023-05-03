@@ -47,7 +47,7 @@ class ChasterUser:
         """Create a ChasterUser object from a dict containing the needed info."""
         gender = (
             ""
-            if data["gender"] is None or not data["gender"].strip()
+            if data["gender"] is None or data["gender"].strip() in ["", "Not specified"]
             else data["gender"]
         )
         return ChasterUser(data["_id"], data["username"], data["isFindom"], gender)
@@ -142,6 +142,7 @@ class ChasterLock:
             "description_len": str(len(self.desc)),
             "link": self.link(),
             "keyholder_name": self.keyholder.name,
+            "keyholder_gender": self.keyholder.gender,
         }
         for col in columns:
             row.append(options[col])

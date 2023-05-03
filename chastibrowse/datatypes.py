@@ -10,6 +10,7 @@ columns_available = Literal[
     "description_len",
     "link",
     "keyholder_name",
+    "keyholder_gender",
 ]
 
 
@@ -32,6 +33,7 @@ class ColumnsListDataType(TypedDict):
     description_len: ColumnConfigDataType
     link: ColumnConfigDataType
     keyholder_name: ColumnConfigDataType
+    keyholder_gender: ColumnConfigDataType
 
 
 class LinksConfigDataType(TypedDict):
