@@ -34,7 +34,7 @@ def handle_user_input(
     ]:
         sys.exit(0)
     elif user_input == "reload":
-        main()
+        main(lastid)  # restart at current shown locks
         sys.exit(0)
     elif user_input == "config":
         print(
@@ -75,7 +75,7 @@ def handle_user_input(
         return newlocks[-1].id  # load new locks
 
 
-def main() -> None:
+def main(lastid: str | None = None) -> None:
     """Run CLI."""
     config_data = load_config()
     if os.get_terminal_size().columns < sum(min_widths(config_data).values()):
@@ -83,7 +83,6 @@ def main() -> None:
             "Your terminal is very thin! If you can, make it wider, then reload.\n" * 5
         )
         time.sleep(3)
-    lastid = None
     while True:
         config_data = load_config()
         newlocks = chaster.fetch_locks(config_data["amount_to_fetch"], lastid)
