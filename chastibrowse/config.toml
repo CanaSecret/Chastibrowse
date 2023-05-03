@@ -38,6 +38,10 @@ show_findom = false
 # default: 0
 max_max_time = 0
 
+# show locks with keyholders that were suspended or disabled?
+# default: false
+show_suspended_keyholders = false
+
 [criteria.links]
 # this table aims to remove locks created just to advertise shared links
 

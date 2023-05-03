@@ -60,6 +60,7 @@ class CriteriaDataType(TypedDict):
     minimum_description_length: int
     show_findom: bool
     max_max_time: int
+    show_suspended_keyholders: bool
     links: LinksConfigDataType
     blacklists: BlacklistConfigDataType
 
@@ -89,6 +90,7 @@ class UserJsonType(TypedDict):
     username: str
     isFindom: bool
     gender: str | None
+    isSuspendedOrDisabled: bool
 
 
 class LockJsonType(TypedDict):

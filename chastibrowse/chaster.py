@@ -28,7 +28,12 @@ class ChasterUser:
     """Python representation of a chaster.app user. Only contains used fields."""
 
     def __init__(
-        self: ChasterUser, _id: str, name: str, findom: bool, gender: str
+        self: ChasterUser,
+        _id: str,
+        name: str,
+        findom: bool,
+        gender: str,
+        disabled: bool,
     ) -> None:
         """ChasterUser constructor.
 
@@ -41,6 +46,7 @@ class ChasterUser:
         self.name = name
         self.findom = findom
         self.gender = gender
+        self.suspended = disabled
 
     @classmethod
     def from_json(cls: type[ChasterUser], data: UserJsonType) -> ChasterUser:
@@ -50,7 +56,13 @@ class ChasterUser:
             if data["gender"] is None or data["gender"].strip() in ["", "Not specified"]
             else data["gender"]
         )
-        return ChasterUser(data["_id"], data["username"], data["isFindom"], gender)
+        return ChasterUser(
+            data["_id"],
+            data["username"],
+            data["isFindom"],
+            gender,
+            data["isSuspendedOrDisabled"],
+        )
 
 
 class ChasterLock:
@@ -109,6 +121,9 @@ class ChasterLock:
             or (
                 self.keyholder.gender.casefold()
                 in map(str.casefold, criteria["blacklists"]["keyholder_genders"])
+            )
+            or (
+                not (criteria["show_suspended_keyholders"]) and self.keyholder.suspended
             )
         ):
             return True
