@@ -41,6 +41,8 @@ class ChasterUser:
         :param name: user's username
         :param findom: whether the user has marked themselves as findom
         :param gender: the user's selected gender; may be an empty string
+
+        :return: None
         """
         self.id = _id
         self.name = name
@@ -85,6 +87,8 @@ class ChasterLock:
         :param maxtime: the maximum lock time from object creation in seconds
         :param password_needed: is a password required to join this lock?
         :param keyholder: the lock's keyholder, as a `ChasterUser`
+
+        :return None:
         """
         self.id = _id
         self.name = name
@@ -194,6 +198,8 @@ def fetch_locks(amount: int, previous_id: str | None = None) -> list[ChasterLock
     :param amount: An integer representing the amount of locks to fetch.
     The chaster.app API will refuse requsts of more than 100.
     :param previous_id: The id of the last lock fetched. This lock will not be returned.
+
+    :return: List of ChasterLock objects representing all locks returned by the API.
     """
     minimum_amount, maximum_amount = 1, 100
     if amount < minimum_amount:

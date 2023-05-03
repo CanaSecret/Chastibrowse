@@ -47,6 +47,8 @@ def split_spare_columns(
     :param amount: amount of spare columns to divide up
     :param weights: dict of keys as col names, ints or floats representing weights of table columns
     :param maxes: dict of keys as col names, ints representing max columns per table column
+
+    :return: A dictionary of column_name: spare_columns_allocated ordered like the given dictionary.
     """
     amount_remaining = amount
     cols_remaining = list(weights.keys())
@@ -97,6 +99,8 @@ def table(
     value represents weight of available space given to element; set to 0 to lock width
 
     :param data: list of rows, given as a list of strings containing the data to be printed
+
+    :return: A print-ready string of the table, including newlines.
     """
     spare_cols = (
         os.get_terminal_size().columns

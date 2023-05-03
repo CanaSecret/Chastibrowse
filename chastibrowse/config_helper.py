@@ -23,15 +23,17 @@ def write_config(config_data: ConfigDataType) -> None:
 
     :param config_data: config data to be written; make sure this is a tomlkit object
     that includes comments.
+
+    :return: None
     """
     with find_config().open("w") as file:
         file.write(tomlkit.dumps(config_data))
 
 
 def min_widths(config_data: ConfigDataType) -> dict[columns_available, int]:
-    """Extract list of minimum widths from configuration data.
+    """Extract dictionary of column_name: minimum_width from configuration data.
 
-    Returns the column widths for columns listed in `columns`.
+    :return: the minimum column widths for columns listed in `columns`.
     """
     return {
         key: config_data["available_columns"][key]["min_width"]
@@ -40,9 +42,9 @@ def min_widths(config_data: ConfigDataType) -> dict[columns_available, int]:
 
 
 def max_widths(config_data: ConfigDataType) -> dict[columns_available, int]:
-    """Extract list of maximum widths from configuration data.
+    """Extract dictionary of column_name: maximum_width from configuration data.
 
-    Returns the column widths for columns listed in `columns`.
+    :return: the maximum column widths for columns listed in `columns`.
     """
     return {
         key: config_data["available_columns"][key]["max_width"]
@@ -53,7 +55,7 @@ def max_widths(config_data: ConfigDataType) -> dict[columns_available, int]:
 def flexibility(config_data: ConfigDataType) -> dict[columns_available, int | float]:
     """Extract list of flexibilities from configuration data.
 
-    Returns the column widths for columns listed in `columns`.
+    :return: the column's flexibilities for columns listed in `columns`.
     """
     return {
         key: config_data["available_columns"][key]["flexibility"]

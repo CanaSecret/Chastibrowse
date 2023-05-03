@@ -24,6 +24,8 @@ def handle_user_input(
     :param config_data: a set of config data, as loaded by `load_config()`
     :param newlocks: list of new locks, used for determining last lock seen
     :param lastid: the previous `lastid`. will be returned if the same locks are to be loaded again.
+
+    :return: Returns a new value for `lastid` depending on the action taken.
     """
     lock_id_length = len(newlocks[0].id)  # should always be 24
 
