@@ -33,7 +33,7 @@ Once installed, can be started by entering 'chastibrowse' in a terminal. Press e
 
 Taking a look through the **config file** is highly recommended. You can find it by entering 'config' into the input prompt.
 
-Lock data is split into 7 columns:
+Lock data is split into 7 columns by default (can be changed in config):
 
 - Maximum time
 - Lock requires Password?
@@ -43,9 +43,9 @@ Lock data is split into 7 columns:
 - Link to Lock
 - Keyholder name
 
-The Title and Description field scale with terminal width, but you'll have to enter 'reload' if you resize while Chastibrowse is running.
+Some fields scale with terminal width by default (can be changed in config), but you'll have to enter 'reload' if you resize while Chastibrowse is running.
 
-If you want to customize this, feel free to take a look at `chaster.py:ChasterLock.to_list()` and the `min_width` and `flexibility` options in the config file.
+If you want to customize this, take a look at `config.toml`.
 
 ### 'Saving'
 
@@ -54,7 +54,7 @@ The input prompt always provides a 'code'. If you save the last code you see, qu
 ## Planned
 
 - **Done!** ~~Easier results display customisation.~~
-- Config file validation
+- **Done!** ~~Config file validation~~
 
 ## Not planned
 
@@ -63,6 +63,6 @@ The input prompt always provides a 'code'. If you save the last code you see, qu
 
 ## Contributing
 
-To contribute, code will have to pass the pre-commit hooks defined in `.pre-commit-config.yaml` (mypy, black, ruff). A `ruff.toml` file is included with the code, but I'm potentially open to changes there if needed.
+To contribute, code will have to pass the pre-commit hooks defined in `.pre-commit-config.yaml` (mypy, black, ruff). All dependencies can be installed with the `poetry install --with dev` command. A `ruff.toml` file is included with the code, but I'm potentially open to changes there if needed.
 
 Otherwise, feel free to do whatever you want with the code as long as the license permits it.
