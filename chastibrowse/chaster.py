@@ -141,6 +141,7 @@ class ChasterLock:
             "description": self.desc,
             "description_len": str(len(self.desc)),
             "link": self.link(),
+            "lock_id": self.id,
             "keyholder_name": self.keyholder.name,
             "keyholder_gender": self.keyholder.gender,
         }
