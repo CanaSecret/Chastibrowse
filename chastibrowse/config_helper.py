@@ -3,8 +3,13 @@ from pathlib import Path
 from typing import cast
 
 import tomlkit
+import typeguard
 
 from .datatypes import ConfigDataType, columns_available
+
+
+class ConfigError(Exception):
+    """Exception for an incorrectly formatted config file."""
 
 
 def find_config() -> Path:
@@ -12,10 +17,46 @@ def find_config() -> Path:
     return Path(__file__).with_name("config.toml")
 
 
+def validate_config(config: ConfigDataType) -> bool:
+    """Validate given config file."""
+    try:
+        typeguard.check_type(config.unwrap(), ConfigDataType)  # type: ignore[attr-defined]
+    except typeguard.TypeCheckError as e:
+        raise ConfigError from e
+    # I really hate that type ignore statement above, but I don't see a better way.
+    max_to_fetch = 100
+    if not (1 <= config["amount_to_fetch"] <= max_to_fetch):
+        raise ConfigError("`amount_to_fetch` must be between 1 and 100.")
+    if len(config["columns"]) != len(set(config["columns"])):
+        raise ConfigError("Can't have duplicated elements in `columns`.")
+    for key in config["available_columns"]:
+        key = cast(columns_available, key)
+        if (
+            config["available_columns"][key]["max_width"] != 0
+            and config["available_columns"][key]["min_width"]
+            > config["available_columns"][key]["max_width"]
+        ):
+            raise ConfigError(
+                f"Max width of column {key} is smaller than minimum width."
+            )
+        if any(
+            [
+                config["available_columns"]["maxtime"]["min_width"] < 0,
+                config["available_columns"][key]["max_width"] < 0,
+                config["available_columns"][key]["flexibility"] < 0,
+            ]
+        ):
+            raise ConfigError(f"One of {key}'s column values is negative.")
+
+    return True
+
+
 def load_config() -> ConfigDataType:
     """Read config file and return values as dictionary."""
     with find_config().open("r") as file:
-        return cast(ConfigDataType, tomlkit.parse(file.read()))
+        config = cast(ConfigDataType, tomlkit.parse(file.read()))
+    validate_config(config)
+    return config
 
 
 def write_config(config_data: ConfigDataType) -> None:

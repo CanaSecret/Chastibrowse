@@ -73,7 +73,11 @@ class FormattingConfigDataType(TypedDict):
 
 
 class ConfigDataType(TypedDict):
-    """Represents `config.toml`."""
+    """Represents `config.toml`.
+
+    The object actually ends up being a `tomlkit.toml_document.TOMLDocument` object,
+    but type hinting that is annoying, leading to a single ignore statement.
+    """
 
     amount_to_fetch: int
     show_keyholder_names: bool
