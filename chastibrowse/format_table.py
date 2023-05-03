@@ -1,6 +1,7 @@
 """Handles tabular printing of information, scaling to terminal width."""
 import math
 import os
+from typing import cast
 
 import emoji
 
@@ -20,6 +21,10 @@ def clean(text: str) -> str:
 
 def fixed_length(text: str, length: int) -> str:
     """Format a string to a fixed length, cutting off with elipsis or padding as needed."""
+    if not text:
+        return " " * length
+    if length == 1:
+        return text[0]
     text = text.strip()
     text = text.replace("\n", " ")
     if len(text) == length:
@@ -55,12 +60,16 @@ def split_spare_columns(
     result: dict[columns_available, int] = {}
     denominator = sum(weights.values())
 
-    # remove columns if weight = 0
-    for key, weight in weights.items():
-        if weight == 0:
+    # remove columns if weight == 0 or max == 0
+    for key in weights:
+        if weights[key] == 0:
             result[key] = 0
             cols_remaining.remove(key)
             continue
+        if maxes[key] == 0:
+            result[key] = 0
+            cols_remaining.remove(key)
+            denominator -= weights[key]
 
     # sort out columns that recieve their max value
     old_amount = None
@@ -68,7 +77,7 @@ def split_spare_columns(
         to_complete = []
         old_amount = amount_remaining
         for key in cols_remaining:
-            if maxes[key] == 0:  # if no max set, we can't reach it
+            if maxes[key] < 0:  # if no max set, we can't reach it
                 continue
             if math.floor(amount_remaining / denominator * weights[key]) >= maxes[key]:
                 to_complete.append(key)
@@ -78,8 +87,6 @@ def split_spare_columns(
             amount_remaining -= maxes[key]
             denominator -= weights[key]
             cols_remaining.remove(key)
-    if not cols_remaining:  # if we're done
-        return result
 
     # non-maxed columns
     for key in cols_remaining:
@@ -109,8 +116,23 @@ def table(
         - 3  # 3 safety buffer
     )
 
+    max_spare_columns = cast(
+        dict[columns_available, int],
+        {
+            key: maximum - minimum
+            # negative result if maximum == 0 to differentiate between
+            # 'don't add any more' and 'no limit'
+            for key, maximum, minimum in zip(
+                max_widths(config).keys(),
+                max_widths(config).values(),
+                min_widths(config).values(),
+                strict=True,
+            )
+        },
+    )  # element-wise subtraction
+
     additional_widths = split_spare_columns(
-        spare_cols, flexibility(config), max_widths(config)
+        spare_cols, flexibility(config), max_spare_columns
     )
 
     true_widths = {

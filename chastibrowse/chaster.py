@@ -33,6 +33,7 @@ class ChasterUser:
         name: str,
         findom: bool,
         gender: str,
+        discord: str | None,
         disabled: bool,
     ) -> None:
         """ChasterUser constructor.
@@ -48,6 +49,7 @@ class ChasterUser:
         self.name = name
         self.findom = findom
         self.gender = gender
+        self.discord = discord
         self.suspended = disabled
 
     @classmethod
@@ -63,6 +65,7 @@ class ChasterUser:
             data["username"],
             data["isFindom"],
             gender,
+            data["discordUsername"],
             data["isSuspendedOrDisabled"],
         )
 
@@ -129,6 +132,7 @@ class ChasterLock:
             or (
                 not (criteria["show_suspended_keyholders"]) and self.keyholder.suspended
             )
+            or (criteria["require_connected_discord"] and not (self.keyholder.discord))
         ):
             return True
         return any(
@@ -163,6 +167,7 @@ class ChasterLock:
             "lock_id": self.id,
             "keyholder_name": self.keyholder.name,
             "keyholder_gender": self.keyholder.gender,
+            "discord": self.keyholder.discord if self.keyholder.discord else "",
         }
         for col in columns:
             row.append(options[col])

@@ -12,6 +12,7 @@ columns_available = Literal[
     "lock_id",
     "keyholder_name",
     "keyholder_gender",
+    "discord",
 ]
 
 
@@ -36,6 +37,7 @@ class ColumnsListDataType(TypedDict):
     lock_id: ColumnConfigDataType
     keyholder_name: ColumnConfigDataType
     keyholder_gender: ColumnConfigDataType
+    discord: ColumnConfigDataType
 
 
 class LinksConfigDataType(TypedDict):
@@ -61,6 +63,7 @@ class CriteriaDataType(TypedDict):
     show_findom: bool
     max_max_time: int
     show_suspended_keyholders: bool
+    require_connected_discord: bool
     links: LinksConfigDataType
     blacklists: BlacklistConfigDataType
 
@@ -94,6 +97,7 @@ class UserJsonType(TypedDict):
     username: str
     isFindom: bool
     gender: str | None
+    discordUsername: str | None
     isSuspendedOrDisabled: bool
 
 
